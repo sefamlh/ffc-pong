@@ -3,9 +3,13 @@ class InputHandler {
     this.onInput = onInput;
     this.currentDir = 'stop';
     this.keys = { up: false, down: false };
+    this.enabled = false;
     this.setupKeyboard();
     this.setupTouch();
   }
+
+  enable() { this.enabled = true; }
+  disable() { this.enabled = false; }
 
   setupKeyboard() {
     document.addEventListener('keydown', (e) => {
@@ -34,20 +38,23 @@ class InputHandler {
   }
 
   setupTouch() {
-    const el = document.getElementById('gameContainer');
+    const el = document.getElementById('pixiCanvas');
     if (!el) return;
 
     el.addEventListener('touchstart', (e) => {
+      if (!this.enabled) return;
       e.preventDefault();
       this.handleTouch(e.touches[0]);
     }, { passive: false });
 
     el.addEventListener('touchmove', (e) => {
+      if (!this.enabled) return;
       e.preventDefault();
       this.handleTouch(e.touches[0]);
     }, { passive: false });
 
     el.addEventListener('touchend', (e) => {
+      if (!this.enabled) return;
       e.preventDefault();
       if (this.currentDir !== 'stop') {
         this.currentDir = 'stop';

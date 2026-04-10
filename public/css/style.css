@@ -237,6 +237,7 @@ canvas {
 .overlay.hidden {
   opacity: 0;
   pointer-events: none;
+  z-index: -1;
 }
 
 .overlay-title {
@@ -490,6 +491,7 @@ canvas {
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 1;
 }
 
 #pixiCanvas canvas {

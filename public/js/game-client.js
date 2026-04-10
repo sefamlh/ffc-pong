@@ -95,6 +95,7 @@ socket.on('game_start', () => {
   gameOverOverlay.classList.add('hidden');
   gameHeader.style.display = 'flex';
   gameActive = true;
+  input.enable();
   renderLoop();
 });
 
@@ -106,6 +107,7 @@ socket.on('game_state', (state) => {
 // Game over
 socket.on('game_over', ({ winner, scores, winnerName }) => {
   gameActive = false;
+  input.disable();
   const won = winner === playerIndex;
   resultTitle.textContent = won ? 'You Win!' : 'You Lose';
   resultTitle.className = `overlay-title ${won ? 'gold' : 'purple'}`;
@@ -116,6 +118,7 @@ socket.on('game_over', ({ winner, scores, winnerName }) => {
 // Opponent left
 socket.on('opponent_left', () => {
   gameActive = false;
+  input.disable();
   resultTitle.textContent = 'Opponent Left';
   resultTitle.className = 'overlay-title purple';
   resultScores.textContent = '';
