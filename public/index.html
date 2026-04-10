@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FFC Pong - 1v1 Real-Time</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="landing">
+    <div class="logo">FFC PONG</div>
+    <p class="subtitle">Real-time 1v1 Pong</p>
+
+    <div class="actions" id="actions">
+      <button class="btn btn-primary" id="createBtn">Create Room</button>
+      <span class="divider">or join with code</span>
+      <div class="join-section">
+        <input class="input" id="roomInput" placeholder="Room Code" maxlength="6">
+        <button class="btn btn-secondary btn-small" id="joinBtn">Join</button>
+      </div>
+      <div class="error-msg" id="errorMsg"></div>
+    </div>
+
+    <div class="share-section" id="shareSection">
+      <div class="overlay-title purple">Room Created!</div>
+      <p class="waiting-text">Share this link with your opponent:</p>
+      <div class="share-link-box">
+        <div class="share-link" id="shareLink"></div>
+        <button class="btn-copy" id="copyBtn" title="Copy link">📋</button>
+      </div>
+      <p class="waiting-text"><span class="spinner"></span>Waiting for opponent...</p>
+    </div>
+
+    <div class="status-bar">
+      <span class="status-dot" id="statusDot"></span>
+      <span id="statusText">Connected</span>
+    </div>
+  </div>
+
+  <script src="https://cdn.socket.io/4.8.0/socket.io.min.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>

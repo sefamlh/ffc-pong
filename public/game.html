@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>FFC Pong - Game</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="game-container">
+    <canvas id="gameCanvas"></canvas>
+
+    <!-- Waiting Overlay -->
+    <div class="overlay" id="waitingOverlay">
+      <div class="overlay-title purple">FFC PONG</div>
+      <p class="overlay-sub" id="waitingText">Connecting...</p>
+      <div id="waitingShareBox" style="display:none; text-align:center;">
+        <p class="waiting-text" style="margin-bottom:12px;">Share this link:</p>
+        <div class="share-link-box" style="max-width:360px; margin:0 auto 20px;">
+          <div class="share-link" id="gameShareLink"></div>
+          <button class="btn-copy" id="gameCopyBtn">📋</button>
+        </div>
+      </div>
+      <button class="btn btn-primary" id="readyBtn" style="display:none;">Ready!</button>
+    </div>
+
+    <!-- Countdown Overlay -->
+    <div class="overlay hidden" id="countdownOverlay">
+      <div class="countdown-number" id="countdownNum">3</div>
+    </div>
+
+    <!-- Game Over Overlay -->
+    <div class="overlay hidden" id="gameOverOverlay">
+      <div class="overlay-title gold" id="resultTitle">You Win!</div>
+      <div class="result-scores" id="resultScores">0 - 0</div>
+      <div class="overlay-buttons">
+        <button class="btn btn-primary btn-small" id="playAgainBtn">Play Again</button>
+        <button class="btn btn-secondary btn-small" id="backBtn">Back to Lobby</button>
+      </div>
+    </div>
+
+    <!-- Player Labels -->
+    <div class="game-header" id="gameHeader" style="display:none;">
+      <div class="player-label"><span class="dot purple"></span><span id="p1Name">Player 1</span></div>
+      <div class="player-label"><span class="dot cyan"></span><span id="p2Name">Player 2</span></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.socket.io/4.8.0/socket.io.min.js"></script>
+  <script src="/js/renderer.js"></script>
+  <script src="/js/input.js"></script>
+  <script src="/js/game-client.js"></script>
+</body>
+</html>
