@@ -136,4 +136,4 @@ setInterval(() => {
   }
 }, 5 * 60 * 1000);
 
-module.exports = { createRoom, joinRoom, setReady, startGame, handleInput, leaveRoom, getRoom, findRoomBySocket, resetRoom };
+module.exports = { createRoom, joinRoom, setReady, startGame, handleInput, leaveRoom, getRoom, findRoomBySocket, resetRoom, _rooms: rooms };

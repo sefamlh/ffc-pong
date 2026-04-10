@@ -3,7 +3,7 @@ const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
 const path = require('path');
-const { createRoom, joinRoom, setReady, startGame, handleInput, leaveRoom, getRoom, findRoomBySocket, resetRoom } = require('./room');
+const { joinRoom, setReady, startGame, handleInput, leaveRoom, getRoom, findRoomBySocket, resetRoom, _rooms } = require('./room');
 
 const app = express();
 const server = http.createServer(app);
@@ -34,22 +34,39 @@ app.get('/play/:roomId', (req, res) => {
 io.on('connection', (socket) => {
   console.log(`Connected: ${socket.id}`);
 
-  socket.on('create_room', (playerName) => {
-    const room = createRoom(socket.id, playerName || 'Player 1');
-    socket.join(room.id);
-    socket.emit('room_created', { roomId: room.id });
-    console.log(`Room ${room.id} created by ${socket.id}`);
-  });
-
   socket.on('join_room', ({ roomId, playerName }) => {
+    let room = getRoom(roomId);
+
+    // If room doesn't exist, create it (first player)
+    if (!room) {
+      room = {
+        id: roomId,
+        players: [socket.id],
+        playerNames: [playerName || 'Player 1'],
+        readyState: [false, false],
+        game: null,
+        status: 'waiting',
+        createdAt: Date.now()
+      };
+      _rooms.set(roomId, room);
+      socket.join(roomId);
+      socket.emit('waiting_for_opponent');
+      console.log(`Room ${roomId} created by ${socket.id}`);
+      return;
+    }
+
+    // Second player joins
     const result = joinRoom(roomId, socket.id, playerName || 'Player 2');
     if (result.error) {
       socket.emit('join_error', { error: result.error });
       return;
     }
     socket.join(roomId);
-    io.to(roomId).emit('room_full', {
-      players: result.room.playerNames
+
+    // Send each player their index
+    const players = result.room.playerNames;
+    result.room.players.forEach((pid, idx) => {
+      io.to(pid).emit('room_full', { players, yourIndex: idx });
     });
     console.log(`${socket.id} joined room ${roomId}`);
   });

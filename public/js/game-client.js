@@ -21,7 +21,6 @@ const canvas = document.getElementById('gameCanvas');
 
 // State
 const roomId = window.location.pathname.split('/play/')[1];
-const isHost = new URLSearchParams(window.location.search).get('host') === '1';
 let playerIndex = -1;
 let gameActive = false;
 let currentState = null;
@@ -36,22 +35,18 @@ const input = new InputHandler((direction) => {
   }
 });
 
-// Connection
+// Connection - everyone joins with join_room
 socket.on('connect', () => {
-  if (isHost) {
-    socket.emit('create_room', 'Player 1');
-  } else {
-    socket.emit('join_room', { roomId, playerName: 'Player 2' });
-  }
+  socket.emit('join_room', { roomId, playerName: 'Player' });
 });
 
-// Host creates room
-socket.on('room_created', ({ roomId: createdRoomId }) => {
-  const shareUrl = `${window.location.origin}/play/${createdRoomId}`;
+// Waiting for opponent (first player in room)
+socket.on('waiting_for_opponent', () => {
+  playerIndex = 0;
+  const shareUrl = `${window.location.origin}/play/${roomId}`;
   gameShareLink.textContent = shareUrl;
   waitingShareBox.style.display = 'block';
   waitingText.textContent = 'Waiting for opponent...';
-  playerIndex = 0;
 });
 
 // Copy button
@@ -62,8 +57,8 @@ gameCopyBtn.addEventListener('click', () => {
 });
 
 // Room full - both players joined
-socket.on('room_full', ({ players }) => {
-  playerIndex = isHost ? 0 : 1;
+socket.on('room_full', ({ players, yourIndex }) => {
+  playerIndex = yourIndex;
   p1Name.textContent = players[0];
   p2Name.textContent = players[1];
   waitingText.textContent = `${players[0]} vs ${players[1]}`;
