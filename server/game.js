@@ -2,12 +2,12 @@ const WIDTH = 800;
 const HEIGHT = 500;
 
 const PADDLE_WIDTH = 15;
-const PADDLE_HEIGHT = 100;
-const PADDLE_SPEED = 7;
+const PADDLE_HEIGHT = 110;
+const PADDLE_SPEED = 9;
 const PADDLE_MARGIN = 20;
 
 const BALL_RADIUS = 8;
-const BALL_BASE_SPEED = 5;
+const BALL_BASE_SPEED = 6;
 const BALL_SPEED_INCREMENT = 0.3;
 const BALL_MAX_SPEED = 12;
 

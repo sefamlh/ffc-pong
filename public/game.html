@@ -9,8 +9,8 @@
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-  <div class="game-container">
-    <canvas id="gameCanvas"></canvas>
+  <div class="game-container" id="gameContainer">
+    <div id="pixiCanvas"></div>
 
     <!-- Waiting Overlay -->
     <div class="overlay" id="waitingOverlay">
@@ -23,6 +23,14 @@
           <button class="btn-copy" id="gameCopyBtn">📋</button>
         </div>
       </div>
+
+      <!-- Controls info shown while waiting -->
+      <div class="controls-info" id="controlsInfo" style="display:none;">
+        <div class="ci-row"><kbd>W</kbd> / <kbd>↑</kbd> Up &nbsp;&nbsp; <kbd>S</kbd> / <kbd>↓</kbd> Down</div>
+        <div class="ci-row ci-mobile">Mobile: Touch upper/lower half of screen</div>
+        <div class="ci-row ci-rule">First to 5 wins &bull; Ball speeds up each hit</div>
+      </div>
+
       <button class="btn btn-primary" id="readyBtn" style="display:none;">Ready!</button>
     </div>
 
@@ -49,6 +57,7 @@
   </div>
 
   <script src="https://cdn.socket.io/4.8.0/socket.io.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/7.3.2/pixi.min.js"></script>
   <script src="/js/renderer.js"></script>
   <script src="/js/input.js"></script>
   <script src="/js/game-client.js"></script>

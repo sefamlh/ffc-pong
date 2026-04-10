@@ -17,16 +17,14 @@ const backBtn = document.getElementById('backBtn');
 const gameHeader = document.getElementById('gameHeader');
 const p1Name = document.getElementById('p1Name');
 const p2Name = document.getElementById('p2Name');
-const canvas = document.getElementById('gameCanvas');
-
 // State
 const roomId = window.location.pathname.split('/play/')[1];
 let playerIndex = -1;
 let gameActive = false;
 let currentState = null;
 
-// Renderer
-const renderer = new PongRenderer(canvas);
+// Renderer (Pixi.js)
+const renderer = new PongRenderer();
 
 // Input
 const input = new InputHandler((direction) => {
@@ -63,6 +61,7 @@ socket.on('room_full', ({ players, yourIndex }) => {
   p2Name.textContent = players[1];
   waitingText.textContent = `${players[0]} vs ${players[1]}`;
   waitingShareBox.style.display = 'none';
+  document.getElementById('controlsInfo').style.display = 'block';
   readyBtn.style.display = 'block';
 });
 
@@ -133,9 +132,7 @@ socket.on('room_reset', ({ players }) => {
   readyBtn.disabled = false;
   readyBtn.style.opacity = '1';
   currentState = null;
-  renderer.trail = [];
-  renderer.particles = [];
-  renderer.prevScores = [0, 0];
+  renderer.reset();
 });
 
 // Play again
